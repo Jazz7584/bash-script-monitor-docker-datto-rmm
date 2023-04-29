@@ -36,3 +36,9 @@ This project is licensed under the MIT License.
 ## Disclaimer
 
 Use this script at your own risk. The author and contributors are not responsible for any damages or issues caused by the use of this script.
+
+## Want to connect?
+
+Feel free to contact me on [Twitter](https://twitter.com/OnlineAnto) or [LinkedIn](https://www.linkedin.com/in/anto-online) if you have any questions or suggestions.
+
+Or just visit my [website](https://anto.online) to see what I do.
