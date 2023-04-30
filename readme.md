@@ -27,7 +27,7 @@ Example cron job:
 
 ```bash
 */5 * * * * /bin/bash /path/to/monitor_cpu_load.sh 40 "https://hooks.slack.com/services/your-webhook-url"
-```:
+```
 
 ## License
 
