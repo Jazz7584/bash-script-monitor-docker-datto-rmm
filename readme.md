@@ -39,6 +39,6 @@ Use this script at your own risk. The author and contributors are not responsibl
 
 ## Want to connect?
 
-Feel free to contact me on [Twitter](https://twitter.com/OnlineAnto) or [LinkedIn](https://www.linkedin.com/in/anto-online) if you have any questions or suggestions.
+Feel free to contact me on [Twitter](https://twitter.com/OnlineAnto), [DEV Community](https://dev.to/antoonline/) or [LinkedIn](https://www.linkedin.com/in/anto-online) if you have any questions or suggestions.
 
 Or just visit my [website](https://anto.online) to see what I do.
