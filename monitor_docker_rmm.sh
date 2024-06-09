@@ -1,14 +1,19 @@
 #!/bin/bash
 
-
-if [ $# -lt 1 ]; then
-    echo "Usage: $0 <threshold> [slack_webhook]"
-    exit 1
-fi
+####################################################
+# monitor_docker.sh - Monitoring of Docker Containers
+#
+# This Script monitors docker containers and shows an 
+# alert if a container ist stopped or CPU is over threshold
+# with an datto RMM alert.
+#
+# created 2024 by Jasper Golze - ITcares
+#
+####################################################
 
 # Get the threshold from the command line argument
-threshold=$1
-slack_webhook=${2:-""}
+#threshold=$1
+threshold=40
 
 # Check if the threshold is a positive number
 if ! [[ $threshold =~ ^[+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$ ]]; then
@@ -23,6 +28,12 @@ if ! command -v docker &> /dev/null; then
     echo "Docker is not installed. Exiting."
     exit 1
 fi
+
+# Get docker stats
+dStats=$(docker stats --no-stream --format "table {{.MemPerc}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.Name}}\t{{.ID}}" | sed -n '1!p')
+
+# Get stopped Containers
+dCStopped=$(docker ps -f "status=exited")
 
 # Get the average CPU load
 avg_cpu_load=$(awk '{print $1}' <(uptime | grep -o 'load average: .*' | cut -d ':' -f 2) | cut -d ',' -f 1)
@@ -55,24 +66,10 @@ if [ $(echo "$avg_cpu_load >= $threshold" | bc) -eq 1 ]; then
     ps -eo pid,pcpu,pmem,comm,args --sort=-pcpu | head -n 51 | tail -n 50 >> $output_file
 
     # Send the report to Slack as an attachment if the webhook URL is provided
-    if [ ! -z "$slack_webhook" ]; then
-        echo "Sending report to Slack..."
-        curl -s -X POST -H 'Content-type: application/json' --data-binary @<(cat <<EOF
-{
-    "text": "CPU Load Report",
-    "attachments": [
-        {
-            "color": "#36a64f",
-            "pretext": "CPU Load Report",
-            "title": "Report: $output_file",
-            "text": "$(sed 's/"/\\"/g' < $output_file | awk '{printf "%s\\n", $0}')"
-        }
-    ]
-}
+    
 EOF
-) $slack_webhook
+)
     fi
 else
     echo "CPU load is below the threshold"
 fi
-
